@@ -154,7 +154,7 @@ export default function Simulator() {
                         <div className="p-2 bg-slate-800 rounded-lg"><Leaf className="w-4 h-4 text-emerald-400" /></div>
                         <div>
                           <div className="text-xs text-slate-400">Carbon</div>
-                          <div className="font-semibold text-slate-200">{(opt.carbon_impact / 1000).toFixed(1)}t</div>
+                          <div className="font-semibold text-slate-200">{Math.round(opt.carbon_impact).toLocaleString()} kg</div>
                         </div>
                       </div>
                       <div className="bg-slate-900/50 p-3 rounded-xl flex items-center gap-3 border border-slate-700/50">

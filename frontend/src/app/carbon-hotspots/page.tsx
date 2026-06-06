@@ -17,6 +17,8 @@ export default function CarbonHotspots() {
 
   if (loading) return <div className="p-8 animate-pulse text-emerald-500 flex justify-center mt-20"><Activity className="w-12 h-12" /></div>;
 
+  const sortedVariants = [...data.variants].sort((a: any, b: any) => a.avg_carbon_kg - b.avg_carbon_kg);
+
   return (
     <div className="space-y-8 max-w-7xl mx-auto animate-in fade-in duration-500 pb-20">
       <header>
@@ -31,12 +33,12 @@ export default function CarbonHotspots() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          <div className="bg-slate-800 border border-slate-700/50 p-6 rounded-2xl shadow-xl">
             <div className="text-sm text-slate-400 font-bold uppercase tracking-wider mb-2">Worst Case Baseline</div>
-            <div className="text-3xl font-black text-red-400">{(data.carbon_hotspots[0].avg_carbon_kg / 1000).toFixed(1)}t</div>
+            <div className="text-3xl font-black text-red-400">{Math.round(data.carbon_hotspots[0].avg_carbon_kg).toLocaleString()} kg</div>
             <div className="text-xs text-slate-500 mt-2">Highest Carbon Historical Execution Path</div>
          </div>
          <div className="bg-slate-800 border border-slate-700/50 p-6 rounded-2xl shadow-xl">
             <div className="text-sm text-slate-400 font-bold uppercase tracking-wider mb-2">Best Case Baseline</div>
-            <div className="text-3xl font-black text-emerald-400">{(data.variants[data.variants.length-1].avg_carbon_kg / 1000).toFixed(1)}t</div>
+            <div className="text-3xl font-black text-emerald-400">{Math.round(sortedVariants[0].avg_carbon_kg).toLocaleString()} kg</div>
             <div className="text-xs text-slate-500 mt-2">Lowest Carbon Historical Execution Path</div>
          </div>
          <div className="bg-indigo-900/40 border border-indigo-500/30 p-6 rounded-2xl shadow-xl">
@@ -70,8 +72,8 @@ export default function CarbonHotspots() {
                             ))}
                           </div>
                         </div>
-                        <div className="text-right">
-                           <div className="text-2xl font-black text-red-400">{(v.avg_carbon_kg / 1000).toFixed(1)} t</div>
+                        <div className="text-right shrink-0 ml-4">
+                           <div className="text-2xl font-black text-red-400 whitespace-nowrap">{Math.round(v.avg_carbon_kg).toLocaleString()} kg</div>
                            <div className="text-xs text-slate-500">Frequency: {v.frequency}</div>
                         </div>
                      </div>
@@ -92,21 +94,22 @@ export default function CarbonHotspots() {
             <h3 className="text-xl font-bold text-white flex items-center gap-2"><Leaf className="text-emerald-400" /> Lowest Carbon Variants</h3>
           </div>
           <div className="p-6 space-y-4">
-             {data.variants.slice(-3).reverse().map((v: any, i: number) => (
+             {sortedVariants.slice(0, 3).map((v: any, i: number) => (
                   <div key={i} className="bg-slate-900/50 p-5 rounded-xl border border-emerald-500/20">
                      <div className="flex justify-between items-start mb-4 mt-2">
                         <div>
+                          <div className="text-lg font-bold text-slate-200 mb-2">Variant Path</div>
                           <div className="flex items-center flex-wrap gap-2 text-sm text-slate-400">
                             {v.variant.split(" -> ").map((step: string, idx: number, arr: any[]) => (
                               <span key={idx} className="flex items-center gap-2">
-                                <span className="bg-slate-800 px-2 py-1 rounded border border-slate-700 whitespace-nowrap">{step}</span>
-                                {idx < arr.length - 1 && <ArrowRight className="w-3 h-3" />}
+                                <span className="bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 font-medium whitespace-nowrap">{step}</span>
+                                {idx < arr.length - 1 && <ArrowRight className="w-4 h-4 text-slate-500" />}
                               </span>
                             ))}
                           </div>
                         </div>
-                        <div className="text-right">
-                           <div className="text-xl font-bold text-emerald-400">{(v.avg_carbon_kg / 1000).toFixed(1)} t</div>
+                        <div className="text-right shrink-0 ml-4">
+                           <div className="text-xl font-bold text-emerald-400 whitespace-nowrap">{Math.round(v.avg_carbon_kg).toLocaleString()} kg</div>
                            <div className="text-xs text-slate-500">Frequency: {v.frequency}</div>
                         </div>
                      </div>
