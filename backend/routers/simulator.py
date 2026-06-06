@@ -35,7 +35,7 @@ def get_recommendations(disruption_id: str):
     alts = json.loads(row["alternatives"])
     rec = json.loads(row["recommended"])
     
-    air_freight = next(o for o in alts if "Air Freight" in o["action"])
+    air_freight = next((o for o in alts if "(AIR)" in o["action"]), alts[0])
     
     return {
         "disruption_id": disruption_id,
