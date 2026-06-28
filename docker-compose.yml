@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   backend:
     build: 
@@ -8,15 +7,17 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - ./data:/data
     environment:
       - ENVIRONMENT=development
+      - DB_PATH=/tmp/simulations.db
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - ./frontend:/app
       - /app/node_modules

@@ -5,7 +5,7 @@ import uuid
 import os
 import math
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 LOCATIONS = {
     "Mumbai": (19.0760, 72.8777),
